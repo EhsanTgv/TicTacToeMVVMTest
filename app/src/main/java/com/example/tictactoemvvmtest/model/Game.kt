@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import java.lang.NullPointerException
 
 class Game(playerOne: String?, playerTwo: String?) {
-    var player1: Player = Player(playerOne!!, "x")
-    var player2: Player = Player(playerTwo!!, "o")
+    var player1: Player? = Player(playerOne!!, "x")
+    var player2: Player? = Player(playerTwo!!, "o")
     var currentPlayer = player1
-    var cells: Array<Array<Cell?>> = Array(BOARD_SIZE) {
+    var cells: Array<Array<Cell?>>? = Array(BOARD_SIZE) {
         arrayOfNulls(
             BOARD_SIZE
         )
@@ -42,8 +42,8 @@ class Game(playerOne: String?, playerTwo: String?) {
     fun hasThreeSameHorizontalCells(): Boolean {
         return try {
             for (i in 0 until BOARD_SIZE) if (areEqual(
-                    cells[i][0]!!,
-                    cells[i][1]!!, cells[i][2]!!
+                    cells!![i][0]!!,
+                    cells!![i][1]!!, cells!![i][2]!!
                 )
             ) return true
             false
@@ -56,8 +56,8 @@ class Game(playerOne: String?, playerTwo: String?) {
     fun hasThreeSameVerticalCells(): Boolean {
         return try {
             for (i in 0 until BOARD_SIZE) if (areEqual(
-                    cells[0][i]!!,
-                    cells[1][i]!!, cells[2][i]!!
+                    cells!![0][i]!!,
+                    cells!![1][i]!!, cells!![2][i]!!
                 )
             ) return true
             false
@@ -69,8 +69,8 @@ class Game(playerOne: String?, playerTwo: String?) {
 
     fun hasThreeSameDiagonalCells(): Boolean {
         return try {
-            areEqual(cells[0][0]!!, cells[1][1]!!, cells[2][2]!!) ||
-                    areEqual(cells[0][2]!!, cells[1][1]!!, cells[2][0]!!)
+            areEqual(cells!![0][0]!!, cells!![1][1]!!, cells!![2][2]!!) ||
+                    areEqual(cells!![0][2]!!, cells!![1][1]!!, cells!![2][0]!!)
         } catch (e: NullPointerException) {
             Log.e(TAG, e.message ?: "")
             false
@@ -78,7 +78,7 @@ class Game(playerOne: String?, playerTwo: String?) {
     }
 
     fun isBoardFull(): Boolean {
-        for (row in cells) for (cell in row) if (cell == null || cell.isEmpty) return false
+        for (row in cells!!) for (cell in row) if (cell == null || cell.isEmpty) return false
         return true
     }
 
@@ -88,5 +88,12 @@ class Game(playerOne: String?, playerTwo: String?) {
         val (player) = cells[0]
         for (i in 1 until cells.size) if (player!!.value != cells[i].player!!.value) return false
         return true
+    }
+
+    fun reset() {
+        player1 = null
+        player2 = null
+        currentPlayer = null
+        cells = null
     }
 }
