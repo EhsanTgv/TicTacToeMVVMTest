@@ -8,11 +8,11 @@ import com.example.tictactoemvvmtest.model.Game
 import com.example.tictactoemvvmtest.model.Player
 import com.example.tictactoemvvmtest.utilities.StringUtility.stringFromNumbers
 
-class GameViewModel(player1: String?, player2: String?) : ViewModel() {
+class GameViewModel : ViewModel() {
     private var game: Game? = null
     var cells: ObservableArrayMap<String, String>? = null
 
-    init {
+    fun init(player1: String?, player2: String?) {
         game = Game(player1, player2)
         cells = ObservableArrayMap()
     }
